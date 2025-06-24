@@ -10,8 +10,9 @@ import random
 
 # 文件夹路径
 folder_path = "./files"
-output_folder = "../../../policy/src/assets/carbon_output"
-os.makedirs(output_folder, exist_ok=True)
+heatmap_json_output_folder = "../policy/src/assets/carbon_output"
+os.makedirs(heatmap_json_output_folder, exist_ok=True)
+map_json_path = '../policy/src/assets/carbon_MapData.json'
 
 # 读取.shp文件
 # 已知SHP的坐标系EPSG:32649，TIFF的坐标系EPSG:4326
@@ -34,7 +35,7 @@ mapdata = {
     ]
 }
 # 保存geoJSON数据
-with open('../../../policy/src/assets/carbon_MapData.json', 'w') as f:
+with open(map_json_path, 'w') as f:
     json.dump(mapdata, f)
 
 # 获取文件夹中所有tif文件
@@ -167,10 +168,11 @@ def plot_raster_with_features(raster_path, output_path):
 # 遍历栅格文件并绘图
 for tif_file in tif_files:
     raster_path = os.path.join(folder_path, tif_file)
-    output_path = os.path.join(output_folder, f"{os.path.splitext(tif_file)[0]}.json")
+    output_path = os.path.join(heatmap_json_output_folder, f"{os.path.splitext(tif_file)[0]}.json")
     try:
         plot_raster_with_features(raster_path, output_path)
     except Exception as e:
         print('error', {str(e)})
 
-print(f"绘图完成，结果保存在 {output_folder} 文件夹中。")
+print(f"carbon heatmap json结果保存在 {heatmap_json_output_folder} 文件夹中。")
+print(f"carbon map json结果保存在 {map_json_path} 文件。")
