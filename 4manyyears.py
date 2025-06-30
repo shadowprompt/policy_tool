@@ -1,6 +1,7 @@
 import json
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import matplotlib.cm as cm
 from pylab import mpl
@@ -23,15 +24,33 @@ df = pd.read_excel(file_path)
 scenarios = range(1, 22)
 
 
+def convert_value(value):
+    if np.isnan(value):
+        return 0
+    elif value == 1.0:
+        return 1
+    elif value == 0.0:
+        return 0
+    else:
+        return value
+    
 json_data = {}
 
 # 对每个情景生成四个独立的图表
 for scenario in scenarios:
     # 筛选出该情景的数据
     scenario_data = df[df['情景编号'] == scenario]
+    # 为每个情景创建一个文件夹
+    folder_name = f'{scenario}'
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
     # 提取单一的值用于文件名
     subsidy_value = scenario_data['subsidy'].iloc[0] if 'subsidy' in scenario_data.columns else 'N/A'
+    subsidy_value = convert_value(subsidy_value)
+
     range_value = scenario_data['range'].iloc[0] if 'range' in scenario_data.columns else 'N/A'
+    range_value = convert_value(range_value)
+
     who_value = scenario_data['who'].iloc[0] if 'who' in scenario_data.columns else 'N/A'
     gradient_value = scenario_data['gradient'].iloc[0] if 'gradient' in scenario_data.columns else 'N/A'
     #  下面的需要取list
@@ -42,7 +61,9 @@ for scenario in scenarios:
     output_value = scenario_data['逐年产值（亿）'].tolist() if '逐年产值（亿）' in scenario_data.columns else []
     acc_output_value = scenario_data['累计产值（亿）'].tolist() if '累计产值（亿）' in scenario_data.columns else []
     water_saving_efficiency = scenario_data['逐年节水效率（立方米/元）'].tolist() if '逐年节水效率（立方米/元）' in scenario_data.columns else []
+    water_saving_efficiency = [convert_value(value) for value in water_saving_efficiency]
     acc_water_saving_efficiency = scenario_data['累计节水效率（立方米/元）'].tolist() if '累计节水效率（立方米/元）' in scenario_data.columns else []
+    acc_water_saving_efficiency = [convert_value(value) for value in acc_water_saving_efficiency]
 
 
     key = f"water-{folder_name}_subsidy-{subsidy_value}_range-{range_value}_who-{who_value}_gradient-{gradient_value}"
@@ -65,7 +86,7 @@ for scenario in scenarios:
     }
 
 
-with open('../policy/src/assets/water_manyyearsData.json', 'w') as f:
+with open('../policy_vue/src/assets/water_manyyearsData.json', 'w') as f:
     json.dump(json_data, f)
 
 print('生成json数据完成')

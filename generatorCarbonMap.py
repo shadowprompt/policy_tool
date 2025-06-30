@@ -9,10 +9,10 @@ from shapely.geometry import Point, MultiPolygon, box
 import random
 
 # 文件夹路径
-folder_path = "./files"
-heatmap_json_output_folder = "../policy/src/assets/carbon_output"
+folder_path = "./files/政策支持系统/碳减排数据汇总/03_模式叠加政策转变碳减排"
+heatmap_json_output_folder = "../policy_vue/src/assets/carbon_output"
 os.makedirs(heatmap_json_output_folder, exist_ok=True)
-map_json_path = '../policy/src/assets/carbon_MapData.json'
+map_json_path = '../policy_vue/src/assets/carbon_MapData.json'
 
 # 读取.shp文件
 # 已知SHP的坐标系EPSG:32649，TIFF的坐标系EPSG:4326

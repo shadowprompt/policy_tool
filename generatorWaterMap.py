@@ -21,7 +21,7 @@ records = sf.records()  # 属性记录列表（字典形式）
 records = [data_map(record) for record in records]  # 将记录转换为字典列表
 fields = sf.fields[1:]  # 字段描述，第一个字段是删除标记，通常忽略
 json_data = json.dumps(records, indent=4)
-json_file_path = os.path.join(current, '../policy/src/assets/water_mapData.json')
+json_file_path = os.path.join(current, '../policy_vue/src/assets/water_mapData.json')
 with open(json_file_path, "w", encoding='utf-8') as fb:
     fb.write(json_data)
     print(f"water datamap json结果保存在 {json_file_path} 文件。")

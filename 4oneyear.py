@@ -32,13 +32,32 @@ plt.rc('ytick', labelsize=12)
 # 读取CSV文件
 df = pd.read_excel(excel_file_path)
 
+def convert_value(value):
+    if np.isnan(value):
+        return 0
+    elif value == 1.0:
+        return 1
+    elif value == 0.0:
+        return 0
+    else:
+        return value
+
+
 json_data = {}
 
 # 创建文件夹并保存图形
 for index, row in df.iterrows():
+    # 创建情景编号文件夹
+    folder_name = f"{row['情景编号']}"
+    if not os.path.exists(folder_name):
+        os.makedirs(folder_name)
     # 提取subsidy, range, who, gradient的值
     subsidy_value = row['subsidy']
+    subsidy_value = convert_value(subsidy_value)
+
     range_value = row['range']
+    range_value = convert_value(range_value)
+
     who_value = row['who']
     gradient_value = row['gradient']
     water_value = row['用水量（亿立方米）'] if pd.notna(row['用水量（亿立方米）']) else 0
@@ -55,7 +74,7 @@ for index, row in df.iterrows():
         "base_water_value": base_water_value
     }
 
-with open('../policy/src/assets/water_oneyearData.json', 'w') as f:
+with open('../policy_vue/src/assets/water_oneyearData.json', 'w') as f:
     json.dump(json_data, f)
 
 print('生成json数据完成')
