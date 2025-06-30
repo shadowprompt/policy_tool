@@ -62,6 +62,9 @@ for index, row in df.iterrows():
     gradient_value = row['gradient']
     water_value = row['用水量（亿立方米）'] if pd.notna(row['用水量（亿立方米）']) else 0
     base_water_value = row['基准用水量（亿立方米）'] if pd.notna(row['基准用水量（亿立方米）']) else 0
+    adopt_ratio = row['采纳比例'] if pd.notna(row['采纳比例']) else 0
+    output_value = row['产值（亿元）'] if pd.notna(row['产值（亿元）']) else 0
+    base_output_value = row['基准产值（亿元）'] if pd.notna(row['基准产值（亿元）']) else 0
 
     key = f"water-{folder_name}_subsidy-{subsidy_value}_range-{range_value}_who-{who_value}_gradient-{gradient_value}"
 
@@ -71,7 +74,10 @@ for index, row in df.iterrows():
         "who_value": who_value,
         "gradient_value": gradient_value,
         "water_value": water_value,
-        "base_water_value": base_water_value
+        "base_water_value": base_water_value,
+        "adopt_ratio": adopt_ratio,
+        "output_value": output_value,
+        "base_output_value": base_output_value,
     }
 
 with open('../policy_vue/src/assets/water_oneyearData.json', 'w') as f:
