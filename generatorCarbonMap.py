@@ -169,6 +169,7 @@ def plot_raster_with_features(raster_path, output_path):
 for tif_file in tif_files:
     raster_path = os.path.join(folder_path, tif_file)
     output_path = os.path.join(heatmap_json_output_folder, f"{os.path.splitext(tif_file)[0]}.json")
+    output_path = output_path.replace('%', '_')
     try:
         plot_raster_with_features(raster_path, output_path)
     except Exception as e:
