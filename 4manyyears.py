@@ -42,8 +42,6 @@ for scenario in scenarios:
     scenario_data = df[df['情景编号'] == scenario]
     # 为每个情景创建一个文件夹
     folder_name = f'{scenario}'
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
     # 提取单一的值用于文件名
     subsidy_value = scenario_data['subsidy'].iloc[0] if 'subsidy' in scenario_data.columns else 'N/A'
     subsidy_value = convert_value(subsidy_value)

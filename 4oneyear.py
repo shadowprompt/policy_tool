@@ -49,8 +49,6 @@ json_data = {}
 for index, row in df.iterrows():
     # 创建情景编号文件夹
     folder_name = f"{row['情景编号']}"
-    if not os.path.exists(folder_name):
-        os.makedirs(folder_name)
     # 提取subsidy, range, who, gradient的值
     subsidy_value = row['subsidy']
     subsidy_value = convert_value(subsidy_value)
